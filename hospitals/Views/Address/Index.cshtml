@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Address>
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<h1>Addresses</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Street Name</th>
+                <th>City</th>
+                <th>Cuntry</th>
+                <th>Postal Code</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td>
+                        <a asp-controller="Address" asp-action="Detail" asp-route-id="@a.Id"> @a.Name </a> 
+                    </td>
+                    <td>@a.City</td>
+                    <td>@a.Country</td>
+                    <td>@a.PostalCode</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+

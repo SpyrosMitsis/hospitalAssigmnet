@@ -1,0 +1,37 @@
+﻿@model IEnumerable<IGrouping<Doctor, Patient>>
+<h1>Patients by Doctor</h1>
+
+
+
+<a href="/Patient?filter_by_room=true">Filter by room</a>
+<a href="/Patient?filter_by_doc=true">Filter by doctor</a>
+<a href="/Patient?filter_by_address=true">Filter by address</a>
+<a href="/Patient">Remove filters</a>
+
+@foreach (var group in Model)
+{
+    <h2>@group.Key.FirstName @group.Key.LastName</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Age</th>
+                <th>Entry Date</th>
+                <th>Exit Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var patient in group)
+            {
+                <tr>
+                    <td>@patient.FirstName</td>
+                    <td>@patient.LastName</td>
+                    <td>@patient.Age</td>
+                    <td>@patient.EntryDate.ToShortDateString()</td>
+                    <td>@patient.ExitDate.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

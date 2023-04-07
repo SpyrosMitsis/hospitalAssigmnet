@@ -1,0 +1,53 @@
+﻿@using System.Web
+@model IEnumerable<Patient>
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    // Get the current query string values
+}
+
+<h1>Patients</h1>
+
+<a href="/Patient?filter_by_room=true">Filter by room</a>
+<a href="/Patient?filter_by_doc=true">Filter by doctor</a>
+<a href="/Patient?filter_by_address=true">Filter by address</a>
+<a href="/Patient">Remove filter</a>
+
+
+<form method="get" action="" >
+  <label for="minAge">Minimum age:</label>
+  <input type="number" id="minAge" name="younger_than" required max= "100" required min = "18">
+
+  <label for="maxAge">Maximum age:</label>
+  <input type="number" id="maxAge" name="older_than" required max= "100" required min="18">
+
+  <button type="submit">Submit</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Age</th>
+            <th>Entry Date</th>
+            <th>Exit Date</th>
+            <th>Room</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.FirstName</td>
+                <td>@p.LastName</td>
+                <td>@p.Age</td>
+                <td>@p.EntryDate.ToShortDateString()</td>
+                <td>@p.ExitDate.ToShortDateString()</td>
+                <td>@p.Room.RoomName</td>
+            </tr>
+        }
+    </tbody>
+</table>
