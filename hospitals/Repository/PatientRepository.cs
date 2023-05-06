@@ -27,41 +27,69 @@ namespace hospitals.Repository
 
         public async Task<IEnumerable<Patient>> GetAll()
         {
-            var paitents = _context.Patient.Include(p => p.Room).OrderBy(p => p.PatientId).ToListAsync();
+            var paitents = _context.Patient
+                .Include(p => p.Room)
+                .OrderBy(p => p.PatientId)
+                .ToListAsync();
+            return await paitents;
+        }
+        public async Task<IEnumerable<Patient>> GetAllWithAddresses()
+        {
+            var paitents = _context.Patient
+                .Include(p => p.Room)
+                .Include(p => p.Address)
+                .OrderBy(p => p.PatientId)
+                .ToListAsync();
             return await paitents;
         }
 
         public async Task<IEnumerable<IGrouping<Address, Patient>>> GetAllByAddress()
         {
-            var patients = await _context.Patient.Include(p => p.Address).OrderBy(p => p.Address.Name).ToListAsync();
+            var patients = await _context.Patient
+                .Include(p => p.Address)
+                .OrderBy(p => p.Address.Name)
+                .ToListAsync();
             return patients.GroupBy(p => p.Address);
         }
 
         public async Task<IEnumerable<IGrouping<Doctor, Patient>>> GetAllByDoctor()
         {
-            var patients = await _context.Patient.Include(p => p.Doctor).OrderBy(p => p.Doctor.Id).ToListAsync();
+            var patients = await _context.Patient
+                .Include(p => p.Doctor)
+                .OrderBy(p => p.Doctor.Id)
+                .ToListAsync();
             return patients.GroupBy(p => p.Doctor);
         }
 
         public async Task<IEnumerable<IGrouping<Room, Patient>>> GetAllByRoom()
         {
-            var patients = await _context.Patient.Include(p => p.Room).OrderBy(p => p.Room.RoomName).ToListAsync();
+            var patients = await _context.Patient
+                .Include(p => p.Room)
+                .OrderBy(p => p.Room.RoomName)
+                .ToListAsync();
             return patients.GroupBy(p => p.Room);
         }
 
         public async Task<IEnumerable<Patient>> GetPatientByAge(int minAge, int maxAge)
         {
             
-            var patients= _context.Patient.Where(d => d.Age >= minAge && d.Age <= maxAge).ToListAsync();
+            var patients= _context.Patient
+                .Where(d => d.Age >= minAge && d.Age <= maxAge)
+                .ToListAsync();
+
             if(minAge > maxAge)
-                patients = _context.Patient.Where(d => d.Age >= minAge).ToListAsync();
+                patients = _context.Patient
+                    .Where(d => d.Age >= minAge)
+                    .ToListAsync();
 
             return await patients;
         }
 
         public async Task<Patient> GetByIdAsync(int id)
         {
-            var patient = _context.Patient.Where(p => p.PatientId == id).FirstOrDefaultAsync();
+            var patient = _context.Patient
+                .Where(p => p.PatientId == id)
+                .FirstOrDefaultAsync();
             return await patient;
         }
 

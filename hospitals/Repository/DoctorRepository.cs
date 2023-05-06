@@ -28,29 +28,47 @@ namespace hospitals.Repository
 
         public async Task<IEnumerable<Doctor>> GetAll()
         {
-            var doctors = _context.Doctor.OrderBy(d => d.Id).ToListAsync();
+            var doctors = _context.Doctor
+                .OrderBy(d => d.Id)
+                .ToListAsync();
+
             return await doctors;
         }
 
         public async Task<Doctor> GetByIdAsync(int id)
         {
-            return await _context.Doctor.Include(d => d.Patients).Where(d => d.Id == id).FirstOrDefaultAsync();
+            var doctors = _context.Doctor
+                .Include(d => d.Patients)
+                    .ThenInclude(p => p.Room)
+                .Where(d => d.Id == id)
+                .FirstOrDefaultAsync();
+
+            return await doctors;
         }
 
         public async Task<IEnumerable<Doctor>> GetDoctorBySalary(float minSalary, float maxSalary)
         {
-            var doctors = _context.Doctor.Where(d => d.Salary >= minSalary && d.Salary <= maxSalary).ToListAsync();
+            var doctors = _context.Doctor
+                .Where(d => d.Salary >= minSalary && d.Salary <= maxSalary)
+                .ToListAsync();
+
             if(minSalary > maxSalary)
-                doctors = _context.Doctor.Where(d => d.Salary >= minSalary).ToListAsync();
+                doctors = _context.Doctor
+                    .Where(d => d.Salary >= minSalary)
+                    .ToListAsync();
 
             return await doctors;
         }
         public async Task<IEnumerable<Doctor>> GetDoctorByAge(int minAge, int maxAge)
         {
             
-            var doctors = _context.Doctor.Where(d => d.Age >= minAge && d.Age <= maxAge).ToListAsync();
+            var doctors = _context.Doctor
+                .Where(d => d.Age >= minAge && d.Age <= maxAge)
+                .ToListAsync();
             if(minAge > maxAge)
-                doctors = _context.Doctor.Where(d => d.Age >= minAge).ToListAsync();
+                doctors = _context.Doctor
+                    .Where(d => d.Age >= minAge)
+                    .ToListAsync();
 
             return await doctors;
         }

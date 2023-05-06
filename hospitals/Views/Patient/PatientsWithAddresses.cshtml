@@ -19,7 +19,6 @@
 </div>
 
 
-
 <form method="get" action="" >
   <label for="minAge">Minimum age:</label>
   <input type="number" id="minAge" name="younger_than" required max= "100" required min = "18">
@@ -39,6 +38,7 @@
             <th>Entry Date</th>
             <th>Exit Date</th>
             <th>Room</th>
+            <th>Address</th>
         </tr>
     </thead>
     <tbody>
@@ -51,6 +51,7 @@
                 <td>@p.EntryDate.ToShortDateString()</td>
                 <td>@p.ExitDate.ToShortDateString()</td>
                 <td>@p.Room.RoomName</td>
+                <td>@p.Address.Name</td>
             </tr>
         }
     </tbody>

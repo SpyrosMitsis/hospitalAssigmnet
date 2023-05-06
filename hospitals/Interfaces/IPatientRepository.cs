@@ -5,6 +5,7 @@ namespace hospitals.Interfaces
     public interface IPatientRepository
     {
         Task<IEnumerable<Patient>> GetAll();
+        Task<IEnumerable<Patient>> GetAllWithAddresses();
         Task<Patient> GetByIdAsync(int id);
         Task<IEnumerable<IGrouping<Doctor, Patient>>> GetAllByDoctor();
         Task<IEnumerable<IGrouping<Room, Patient>>> GetAllByRoom();

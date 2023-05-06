@@ -1,6 +1,8 @@
-﻿namespace hospitals.Dto
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace hospitals.Models
 {
-    public class DoctorDto
+    public class Employee
     {
         public int Id { get; set; }
         public string  FirstName { get; set; }

@@ -9,9 +9,12 @@ namespace hospitals.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options ) : base(options)
         {
         }
+        public DbSet<Employee> Employee { get; set; }
         public DbSet<Doctor> Doctor { get; set; }
+        public DbSet<Nurse> Nurse { get; set; }
         public DbSet<Patient> Patient { get; set; }
         public DbSet<Room> Room { get; set; }
         public DbSet<Address> Address { get; set; }
+
     }
 }

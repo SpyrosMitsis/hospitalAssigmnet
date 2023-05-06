@@ -21,8 +21,16 @@ namespace hospitals.Controllers
             var groupByAddress= Request.Query["filter_by_address"];
             var minAge = Request.Query["older_than"];
             var maxAge = Request.Query["younger_than"];
+            var showAddress = Request.Query["show_address"];
+
+
             var patients = await _patientRepository.GetAll();
 
+            if (string.Equals(showAddress,"true"))
+            {
+                var patientsWithRoom = await _patientRepository.GetAllWithAddresses();
+                return View("PatientsWithAddresses",patientsWithRoom);
+            }
             if (string.Equals(groupByRoom,"true"))
             {
                 var patientsByRoom = await _patientRepository.GetAllByRoom();
@@ -44,6 +52,7 @@ namespace hospitals.Controllers
                 var youngerThan = int.Parse(maxAge);
                 patients = await _patientRepository.GetPatientByAge(youngerThan, olderThan);
             }
+
             return View(patients);
         }
 
