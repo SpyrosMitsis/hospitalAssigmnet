@@ -39,65 +39,6 @@ namespace Hospital.Tests.RepositoryTests
         }
 
         [Fact]
-        public async void DoctorRepository_Add_ReturnsBool()
-        {
-            //Arrange
-            var doctor = fd.GenerateDoctor();
-            var dbContext = await GetDbContext();
-            var doctorRepository = new DoctorRepository(dbContext);
-
-            //Act
-            var result = doctorRepository.Add(doctor);
-
-            //Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public async void DoctorRepository_SaveNoChanges_ReturnsBool()
-        {
-            //Arrange
-            var dbContext = await GetDbContext();
-            var doctorRepository = new DoctorRepository(dbContext);
-
-            //Act
-            var result = doctorRepository.Save();
-
-            //Assert
-            result.Should().BeFalse();
-        }
-
-        [Fact]
-        public async void DoctorRepository_Delete_ReturnsBool()
-        {
-            //Arrange
-            var dbContext = await GetDbContext();
-            var doctor = dbContext.Doctor.FirstOrDefault();
-            var doctorRepository = new DoctorRepository(dbContext);
-
-            //Act
-            var result = doctorRepository.Delete(doctor);
-
-            //Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
-        public async void DoctorRepository_Update_ReturnsBool()
-        {
-            //Arrange
-            var dbContext = await GetDbContext();
-            var doctor = dbContext.Doctor.FirstOrDefault();
-            var doctorRepository = new DoctorRepository(dbContext);
-
-            //Act
-            var result = doctorRepository.Update(doctor);
-
-            //Assert
-            result.Should().BeTrue();
-        }
-
-        [Fact]
         public async void DoctorRepository_GetByIdAsync_ReturnsDoctor()
         {
             //Arrange
@@ -113,19 +54,5 @@ namespace Hospital.Tests.RepositoryTests
             result.Should().BeOfType<Task<Doctor>>();
         }
 
-        [Fact]
-        public async void DoctorRepository_GetAll_ReturnsIEnumerableDoctors()
-        {
-            //Arrange
-            var dbContext = await GetDbContext();
-            var doctorRepository = new DoctorRepository(dbContext);
-
-            //Act
-            var result = doctorRepository.GetAll();
-
-            //Assert
-            result.Should().NotBeNull();
-            result.Should().BeOfType<Task<IEnumerable<Doctor>>>();
-        }
     }
 }

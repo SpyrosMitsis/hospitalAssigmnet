@@ -12,7 +12,7 @@ namespace hospitals.Repository
         public RoomRepository(ApplicationDbContext context)
         {
             _context = context;
-            
+
         }
         public bool Add(Room room)
         {
@@ -28,7 +28,7 @@ namespace hospitals.Repository
 
         public async Task<IEnumerable<Room>> GetAll()
         {
-            var  rooms = _context.Room.OrderBy(r => r.RoomId).ToListAsync();
+            var rooms = _context.Room.OrderBy(r => r.RoomId).ToListAsync();
             return await rooms;
         }
 
@@ -36,6 +36,15 @@ namespace hospitals.Repository
         {
             var room = _context.Room.Include(r => r.Patients).Where(p => p.RoomId == id).FirstOrDefaultAsync();
             return await room;
+        }
+        public async Task<IEnumerable<Room>> GetByFloorAsync(string floor)
+        {
+            var rooms = _context.Room
+                .Include(r => r.Patients)
+                .Where(p => p.RoomName.StartsWith(floor))
+                .ToListAsync();
+
+            return await rooms;
         }
 
         public bool Save()
@@ -49,6 +58,16 @@ namespace hospitals.Repository
             _context.Update(room);
             return Save();
 
+        }
+        public async Task<IEnumerable<string>> GetUniqueFloorNames()
+        {
+            var rooms = _context.Room
+                .OrderBy(r => r.RoomName)
+                .Select(r => r.RoomName.Substring(0, 1))
+                .Distinct()
+                .ToListAsync();
+
+            return await rooms;
         }
     }
 }

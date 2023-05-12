@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BogusData.FakeModels
 {
-    internal class FakeRoom
+    public class FakeRoom
     {
         Faker<Room> RoomFake;
 
@@ -24,7 +24,14 @@ namespace BogusData.FakeModels
                     return floor + f.Random.Replace("##");
                 }
                 )
-                .RuleFor(u => u.nurse, new FakeNurse().GenerateNurse()
+                .RuleFor(u => u.Nurse, new Nurse()
+                {
+                    Id = 2,
+                    Age = 34,
+                    FirstName = "John",
+                    LastName = "Stamos",
+                    Salary = 4000
+                }
                 );
         }
 

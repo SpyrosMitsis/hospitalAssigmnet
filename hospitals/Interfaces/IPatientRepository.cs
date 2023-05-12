@@ -11,6 +11,9 @@ namespace hospitals.Interfaces
         Task<IEnumerable<IGrouping<Room, Patient>>> GetAllByRoom();
         Task<IEnumerable<IGrouping<Address, Patient>>> GetAllByAddress();
         Task<IEnumerable<Patient>> GetPatientByAge(int minAge, int maxAge);
+        Task<IEnumerable<Patient>> GetPatientByDate(DateTime entryDate, DateTime exitDate);
+        Task<int> GetMinAgeAsync();
+        Task<int> GetMaxAgeAsync();
         bool Add(Patient patient);
         bool Update(Patient patient);
         bool Delete(Patient patient);

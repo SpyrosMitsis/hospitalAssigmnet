@@ -22,7 +22,11 @@ namespace hospitals.Controllers
             var minAge = Request.Query["older_than"];
             var maxAge = Request.Query["younger_than"];
             var showAddress = Request.Query["show_address"];
+            var entryDate = Request.Query["entry_date"];
+            var exitDate = Request.Query["exit_date"];
 
+            ViewBag.MaxAge = await _patientRepository.GetMaxAgeAsync();
+            ViewBag.MinAge = await _patientRepository.GetMinAgeAsync();
 
             var patients = await _patientRepository.GetAll();
 
@@ -51,6 +55,12 @@ namespace hospitals.Controllers
                 var olderThan = int.Parse(minAge);
                 var youngerThan = int.Parse(maxAge);
                 patients = await _patientRepository.GetPatientByAge(youngerThan, olderThan);
+            }
+            if (!string.IsNullOrEmpty(entryDate) && !string.IsNullOrEmpty(exitDate))
+            {
+                var enteredIn = DateTime.Parse(entryDate);
+                var exitedIn = DateTime.Parse(exitDate);
+                patients = await _patientRepository.GetPatientByDate(enteredIn, exitedIn);
             }
 
             return View(patients);

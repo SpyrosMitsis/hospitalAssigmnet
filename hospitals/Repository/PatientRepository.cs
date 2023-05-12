@@ -84,6 +84,20 @@ namespace hospitals.Repository
 
             return await patients;
         }
+        public async Task<IEnumerable<Patient>> GetPatientByDate(DateTime entryDate, DateTime exitDate)
+        {
+            
+            var patients= _context.Patient
+                .Where(d => d.EntryDate >= entryDate && d.ExitDate<= exitDate)
+                .ToListAsync();
+
+            if(entryDate > exitDate)
+                patients = _context.Patient
+                    .Where(d => d.EntryDate>= entryDate)
+                    .ToListAsync();
+
+            return await patients;
+        }
 
         public async Task<Patient> GetByIdAsync(int id)
         {
@@ -91,6 +105,16 @@ namespace hospitals.Repository
                 .Where(p => p.PatientId == id)
                 .FirstOrDefaultAsync();
             return await patient;
+        }
+        public async Task<int> GetMaxAgeAsync()
+        {
+            var age = _context.Patient.MaxAsync(p => p.Age);
+            return await age;
+        }
+        public async Task<int> GetMinAgeAsync()
+        {
+            var age = _context.Patient.MinAsync(p => p.Age);
+            return await age;
         }
 
         public bool Save()

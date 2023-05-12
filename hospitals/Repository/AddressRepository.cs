@@ -42,7 +42,10 @@ namespace hospitals.Repository
         /// <returns>The Addresses List</returns>
         public async Task<IEnumerable<Address>> GetAll()
         {
-            var addresses  = _context.Address.OrderBy(a => a.Id).ToListAsync();
+            var addresses  = _context.Address
+                .OrderBy(a => a.Id)
+                .ToListAsync();
+
             return await addresses;
 
         }
@@ -54,7 +57,11 @@ namespace hospitals.Repository
         /// <returns>Address Object</returns>
         public async Task<Address> GetByIdAsync(int id)
         {
-            var address = _context.Address.Include(a => a.Patients).Where(a => a.Id ==  id).FirstOrDefaultAsync();
+            var address = _context.Address
+                .Include(a => a.Patients)
+                .Where(a => a.Id ==  id)
+                .FirstOrDefaultAsync();
+
             return await address;
         }
 
@@ -77,6 +84,41 @@ namespace hospitals.Repository
         {
             _context.Update(address);
             return Save();
+        }
+
+        public async Task<IEnumerable<string>> GetUniqueCountriesAsync()
+        {
+            var countries = _context.Address
+                .Select(a => a.Country)
+                .Distinct()
+                .ToListAsync();
+
+            return await countries;
+        }
+        public async Task<IEnumerable<string>> GetUniqueCitiesAsync()
+        {
+            var cities = _context.Address
+                .Select(a => a.City)
+                .Distinct()
+                .ToListAsync();
+
+            return await cities;
+        }
+        public async Task<IEnumerable<Address>> GetCityAsync(string city)
+        {
+            var addresses = _context.Address
+                .Where(a => a.City == city)
+                .ToListAsync();
+
+            return await addresses;
+        }
+        public async Task<IEnumerable<Address>> GetCountryAsync(string country)
+        {
+            var addresses = _context.Address
+                .Where(a => a.Country== country)
+                .ToListAsync();
+
+            return await addresses;
         }
     }
 }

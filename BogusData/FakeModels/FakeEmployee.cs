@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace BogusData.FakeModels
 {
-    internal class FakeEmployee
+    enum Job
     {
-        Faker<Employee> employeeFake;
+    Doctor,
+    Nurse
+    }
+
+    public class FakeEmployee
+    {
+        public Faker<Employee> employeeFake;
 
         public FakeEmployee()
         {

@@ -11,7 +11,6 @@ namespace BogusData.FakeModels
     public class FakePatient
     {
         Faker<Patient> patientFake;
-        public List<int> DocId { get; set; }
         public FakePatient()
         {
             Randomizer.Seed = new Random(210);
@@ -23,9 +22,34 @@ namespace BogusData.FakeModels
                 .RuleFor(u => u.Age, f => f.Random.Int(30, 75))
                 .RuleFor(u => u.EntryDate, f => f.Date.Past().Date)
                 .RuleFor(u => u.ExitDate, f => f.Date.Future().Date)
-                .RuleFor(u => u.Address, f => new FakeAddress().GenerateAddress())
-                .RuleFor(u => u.Room, f => new FakeRoom().GenerateRoom())
-                .RuleFor(u => u.Doctor, f => new FakeDoctor().GenerateDoctor()
+                .RuleFor(u => u.Room, new FakeRoom().GenerateRoom())
+                .RuleFor(u => u.Address, new FakeAddress().GenerateAddress())
+                .RuleFor(u => u.Doctor, new FakeDoctor().GenerateDoctor()
+
+                //.RuleFor(u => u.Address, new Address()
+                //{
+                //    Id = 1,
+                //    Name = "Amalias 2",
+                //    City = "Athens",
+                //    Country = "Greece",
+                //    PostalCode = "12345",
+                //})
+                //.RuleFor(u => u.Room, new FakeRoom().GenerateRoom())
+                ////.RuleFor(u => u.Room, new Room()
+                ////{
+                ////    RoomId = 1,
+                ////    RoomName = "A5",
+                ////    //Nurse = new FakeNurse().GenerateNurse()
+                ////})
+                //.RuleFor(u => u.Doctor, new Doctor()
+                //{
+                //    Id = 1,
+                //    FirstName = "Mario",
+                //    LastName = "Luigi",
+                //    Age = 45,
+                //    Salary = 45000,
+                //}
+
                     );
         }
 

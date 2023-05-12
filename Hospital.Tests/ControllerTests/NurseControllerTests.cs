@@ -15,21 +15,23 @@ namespace Hospital.Tests.ControllerTests
     public class NurseControllerTests
     {
         private INurseRepository _nurseRepository;
+        private IEmployeeRepository _employeeRepository;
         private NurseController _nurseController;
 
         public NurseControllerTests()
         {
             // Dependencies
             _nurseRepository = A.Fake<INurseRepository>();
+            _employeeRepository = A.Fake<IEmployeeRepository>();
             // SUT
-            _nurseController = new NurseController(_nurseRepository);
+            _nurseController = new NurseController(_nurseRepository, _employeeRepository);
         }
         [Fact]
         public void NurseController_Index_ReturnsSuccess()
         {
             // Arrange
             var nurses = A.Fake<IEnumerable<Nurse>>();
-            A.CallTo(() => _nurseRepository.GetAll()).Returns(nurses);
+            A.CallTo(() => _employeeRepository.GetAll<Nurse>()).Returns(nurses);
             // Act
             var result = _nurseController.Index();
             // Assert

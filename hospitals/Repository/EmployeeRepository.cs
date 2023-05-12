@@ -13,56 +13,68 @@ namespace hospitals.Repository
         {
             _context = context;
         }
-        public bool Add(Employee employee)
+        public bool Add<T>(T employee) where T : Employee
         {
             _context.Add(employee);
             return Save();
         }
 
-        public bool Delete(Employee employee)
+        public bool Delete<T>(T employee) where T : Employee
         {
             _context.Remove(employee);
             return Save();
         }
-        public async Task<IEnumerable<Employee>> GetAll()
+        public async Task<IEnumerable<T>> GetAll<T>() where T : Employee
         {
-            var employee = await _context.Employee.ToListAsync();
-            return employee;
+            var employees = await _context.Set<T>().ToListAsync();
+            return employees;
         }
-        public async Task<Employee> GetByIdAsync(int id)
+        public async Task<T> GetByIdAsync<T>(int id) where T : Employee
         {
-            var employee = _context.Employee
+            var employee = _context.Set<T>()
                 .Where(d => d.Id == id)
                 .FirstOrDefaultAsync();
 
             return await employee;
         }
 
-        public async Task<IEnumerable<Employee>> GetEmployeeBySalary(float minSalary, float maxSalary)
+        public async Task<IEnumerable<T>> GetEmployeeBySalary<T>(float minSalary, float maxSalary) where T : Employee
         {
-            var employees = _context.Employee
-                .Where(d => d.Salary >= minSalary && d.Salary <= maxSalary)
-                .ToListAsync();
 
             if(minSalary > maxSalary)
-                employees = _context.Employee
+            {
+                var employees = _context.Set<T>()
                     .Where(d => d.Salary >= minSalary)
                     .ToListAsync();
+                    return await employees;
+            }
+            else
+            {
+                var employees = _context.Set<T>()
+                    .Where(d => d.Salary >= minSalary && d.Salary <= maxSalary)
+                    .ToListAsync();
+                    return await employees;
+            }
 
-            return await employees;
         }
-        public async Task<IEnumerable<Employee>> GetEmployeeByAge(int minAge, int maxAge)
+        public async Task<IEnumerable<T>> GetEmployeeByAge<T>(int minAge, int maxAge) where T : Employee
         {
-            
-            var employees = _context.Employee
-                .Where(d => d.Age >= minAge && d.Age <= maxAge)
-                .ToListAsync();
+
             if(minAge > maxAge)
-                employees = _context.Employee
+            {
+                var employees = _context.Set<T>()
                     .Where(d => d.Age >= minAge)
                     .ToListAsync();
+                    return await employees;
+            }
+            else
+            {
+                var employees = _context.Set<T>()
+                    .Where(d => d.Age >= minAge && d.Age <= maxAge)
+                    .ToListAsync();
 
-            return await employees;
+                return await employees;
+            }
         }
 
         public bool Save()
@@ -71,10 +83,31 @@ namespace hospitals.Repository
             return saved > 0 ? true : false;
         }
 
-        public bool Update(Employee employee)
+        public bool Update<T>(T employee) where T : Employee
         {
             _context.Update(employee);
             return Save();
+        }
+
+        public async Task<int> MaxAgeAsync<T>() where T : Employee
+        {
+            var age = _context.Set<T>().MaxAsync(e => e.Age);
+            return await age;
+        }
+        public async Task<int> MinAgeAsync<T>() where T : Employee
+        {
+            var age = _context.Set<T>().MinAsync(e => e.Age);
+            return await age;
+        }
+        public async Task<double> MaxSalaryAsync<T>() where T : Employee
+        {
+            var salary = _context.Set<T>().MaxAsync(e => e.Salary);
+            return await salary;
+        }
+        public async Task<double> MinSalaryAsync<T>() where T : Employee
+        {
+            var salary = _context.Set<T>().MinAsync(e => e.Salary);
+            return await salary;
         }
     }
 }

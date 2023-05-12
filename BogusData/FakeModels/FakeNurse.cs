@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace BogusData.FakeModels
 {
-    internal class FakeNurse
+    public class FakeNurse
     {
         Faker<Nurse> nurseFake;
 

@@ -6,6 +6,30 @@
 }
 <h1>Addresses</h1>
 
+<form method="get">
+    <label for="cities">Select a city:</label>
+    <select id="cities" name="city">
+        <option value="">--Select City--</option>
+        @foreach(var city in ViewBag.UniqueCities)
+        {
+            <option value="@city">@city</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
+<form method="get">
+    <label for="countries">Select a country:</label>
+    <select id="countries" name="country">
+        <option value="">--Select Country--</option>
+        @foreach(var country in ViewBag.UniqueCountries)
+        {
+            <option value="@country">@country</option>
+        }
+    </select>
+    <button type="submit">Submit</button>
+</form>
+
     <table class="table">
         <thead>
             <tr>

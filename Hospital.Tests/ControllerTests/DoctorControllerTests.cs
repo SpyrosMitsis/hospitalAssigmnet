@@ -18,22 +18,24 @@ namespace Hospital.Tests.ControllerTests
     {
         private DoctorController _doctorController;
         private IDoctorRepository _doctorRepository;
+        private IEmployeeRepository _employeeRepository;
         private ILogger<DoctorController> _logger;
 
         public DoctorControllerTests()
         {
             // Dependencies
             _doctorRepository = A.Fake<IDoctorRepository>();
+            _employeeRepository = A.Fake<IEmployeeRepository>();
             _logger = A.Fake<ILogger<DoctorController>>();
             // SUT
-            _doctorController = new DoctorController(_doctorRepository, _logger);
+            _doctorController = new DoctorController(_employeeRepository, _doctorRepository, _logger);
         }
         [Fact]
         public void DoctorController_Index_ReturnsSuccess()
         {
             // Arrange
             var doctors = A.Fake<IEnumerable<Doctor>>();
-            A.CallTo(() => _doctorRepository.GetAll()).Returns(doctors);
+            A.CallTo(() => _employeeRepository.GetAll<Doctor>()).Returns(doctors);
             // Act
             var result = _doctorController.Index();
             // Assert

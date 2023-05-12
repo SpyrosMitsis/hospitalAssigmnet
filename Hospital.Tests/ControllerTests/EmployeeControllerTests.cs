@@ -29,7 +29,7 @@ namespace Hospital.Tests.ControllerTests
         {
             // Arrange
             var employees = A.Fake<IEnumerable<Employee>>();
-            A.CallTo(() => _employeeRepository.GetAll()).Returns(employees);
+            A.CallTo(() => _employeeRepository.GetAll<Employee>()).Returns(employees);
             // Act
             var result = _employeeController.Index();
             // Assert
