@@ -1,3 +1,11 @@
+// ------------------------------------------------
+//  Student Name: Spyros Mitsis
+//  Student ID: 2228036
+//  Course : Object Oriented Programming SWE4005
+//  Professor: Hector Gatsos
+//  Date 23/05/2023
+// ------------------------------------------------
+
 using hospitals.Data;
 using hospitals.Interfaces;
 using hospitals.Repository;
@@ -17,8 +25,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Host.UseSerilog();
-
-//builder.Logging.AddSerilog(_logger);
 
 
 
@@ -51,8 +57,17 @@ app.UseStaticFiles();
 // app.UseSerilogRequestLogging();
 
 app.UseRouting();
-
+app.UseStaticFiles();
 app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "readme",
+        pattern: "readme",
+        defaults: new { controller = "Home", action = "Readme" }
+    );
+});
 
 app.MapControllerRoute(
     name: "default",
